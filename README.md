@@ -1,13 +1,69 @@
 # News-generate-bot
-A telegram bot generating fake news.
+A telegram bot generating fake news.  
+Base model: sberbank-ai/rugpt3small_based_on_gpt2  
+Subsequent training on Ria News (https://ria.ru)  
 
-Base model: sberbank-ai/rugpt3small_based_on_gpt2
+## Project structure
+```
+.
+├── app
+│   ├── .env                       # secret token
+│   ├── model_news.py              # generates texts
+│   └── telegram_bot.py            # runs telegram bot
+├── data
+│   ├── polit                      # political news
+│   ├── econ                       # economical news
+│   ├── sc                         # science news
+│   └── sp                         # sport news
+├── models
+│   └── model.pth                  # torch model after training
+├── train
+│   ├── prepare_dataset.py         # reads all files in ../data shuffles them and tokenizes
+│   └── train_model.py             # main train module 
+├── ui
+│   └── interface.py               # simple UI to check the model 
+├── .gitignore
+├── README.md
+└── requirements.txt
+```
 
-Subsequent training on Ria News (https://ria.ru)
+## Installing dependencies
+To install the dependencies run:
+```
+$ pip install -r requirements.txt
+```
 
-# Example:
+## Training model
+You can train model on current dataset or replace it with your own one.  
+To train model on existing dataset run:  
+```
+$ cd ./train
+$ python3 ./train_model.py
+```
+As a result a new file `model.pth` will be created in the path `./models`
 
-<img src="https://sun9-62.userapi.com/impg/ExLZkYM5sY_-GYH41ydYZ3aeGzKYlFGZfr6phw/qWtpfWqP8P4.jpg?size=828x1165&quality=95&sign=38cb1968afce0bd13ca99421537306ac&type=album" alt="sketch" width=200 height=300> <img src="https://sun9-1.userapi.com/impg/Rh8zhzBrBkKuN-WzylQ6vlRJAlJUY51QOAwUbg/AjTLsOV9aRI.jpg?size=591x1280&quality=95&sign=26f15af564ade3f4bb5a34337cc7ee44&type=album" alt="sketch" width=200 height=400>
+## Run interface
+The repo has demo interface to check the model work. To run it on your local machine run:
+```
+$ cd ./ui
+$ python3 ./interface.py
+```
+<img width="1279" alt="Снимок экрана 2023-07-30 в 01 55 08" src="https://github.com/JuliaRebrova/News-generate-bot/assets/90173032/377251be-b049-4213-aa0d-65a7d8a437c1">
 
-# How to run
-Firstable you should run the train_model_for_news_bot.ipynb, train the model on data from the folder news_1 and load it. Then run main.py.
+It's possible to check the model from console:  
+```
+$ cd ./app
+$ python3 ./model_news.py
+```
+## Run the telegram bot
+For running a telegram bot it's nessesary to get a bot token from Bot Father.  
+Create a file `.env` instead of the `.env_example` and write your token in it. 
+Then run the bot:  
+```
+$ cd ./app
+$ python3 ./telegram_bot.py
+```
+
+## Example:
+<img width="692" alt="Снимок экрана 2023-07-30 в 02 23 03" src="https://github.com/JuliaRebrova/News-generate-bot/assets/90173032/03b315dc-9132-43d1-8077-c53e9ff62743">
+
